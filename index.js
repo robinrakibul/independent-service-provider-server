@@ -33,13 +33,13 @@ async function run() {
             res.send(items);
         });
 
-        // searchId
-        app.get('/products/:id', async(req, res) =>{
-            const id = req.params.id;
-            const query={_id: ObjectId(id)};
-            const itemSearch = await itemsCollection.findOne(query);
-            res.send(itemSearch);
-        });
+       // SearchId Products
+       app.get('/products/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const itemSearch = await itemsCollection.findOne(query);
+        res.send(itemSearch);
+    });
     }
     finally {
 
