@@ -35,28 +35,28 @@ async function run() {
             res.send(items);
         });
 
-       // SearchId Products
-       app.get('/products/:id', async (req, res) => {
-        const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const itemSearch = await itemsCollection.findOne(query);
-        res.send(itemSearch);
+        // SearchId Products
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const itemSearch = await itemsCollection.findOne(query);
+            res.send(itemSearch);
+        });
 
         // Orders
-        app.get('/orders',async(req,res)=>{
+        app.get('/orders', async (req, res) => {
             const email = req.query.email;
-            const query = {email: email};
+            const query = { email: email };
             const cursor = orderCollection.find(query);
             const orders = await cursor.toArray();
             res.send(orders);
         })
         // Insert Order
-        app.post('/order',async(req,res)=>{
+        app.post('/order', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order);
             res.send(result);
         })
-    });
     }
     finally {
 
