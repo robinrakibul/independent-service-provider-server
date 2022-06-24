@@ -22,8 +22,10 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        // collection in mongodb
+        // product collection in mongodb
         const itemsCollection = client.db('famousWriter').collection('books');
+        // order collection in mongodb
+        const orderCollection = client.db('famousWriter').collection('orders');
 
         // Products API
         app.get('/products', async (req, res) => {
@@ -39,6 +41,21 @@ async function run() {
         const query = { _id: ObjectId(id) };
         const itemSearch = await itemsCollection.findOne(query);
         res.send(itemSearch);
+
+        // Orders
+        app.get('/orders',async(req,res)=>{
+            const email = req.query.email;
+            const query = {email: email};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        })
+        // Insert Order
+        app.post('/order',async(req,res)=>{
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.send(result);
+        })
     });
     }
     finally {
